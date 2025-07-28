@@ -1,0 +1,22 @@
+# 🔐 Secrets
+.env
+.secrets/
+.secret_config.json
+
+# 🧠 Models & Data
+*.pkl
+*.h5
+*.zip
+*.csv
+
+# 📡 Streamlit Secrets
+.streamlit/secrets.toml
+
+# 🐍 Python Caches
+__pycache__/
+*.pyc
+*.pyo
+
+# 💻 OS Generated Files
+.DS_Store
+Thumbs.db

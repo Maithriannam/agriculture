@@ -1,0 +1,8 @@
+pandas
+scikit-learn
+matplotlib
+seaborn
+plotly
+gTTS
+twilio
+requests
