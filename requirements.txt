@@ -6,3 +6,4 @@ plotly
 gTTS
 twilio
 requests
+python-dotenv
