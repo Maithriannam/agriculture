@@ -66,15 +66,22 @@ with st.form("input_form"):
 if submitted:
     moisture_val = 0 if moisture == "Wet" else 1
     prediction = predict_irrigation(temp, humidity, moisture_val, crop)
-    result_text = "✅ నీరు అవసరం లేదు" if prediction == 0 else "🚿 నీరు అవసరం ఉంది"
-    st.success(result_text)
 
-    # 🔊 Telugu Voice Generation (Render Compatible)
+    result_text = "✅ నీరు అవసరం లేదు" if prediction == 0 else "🚿 నీరు అవసరం ఉంది"
+
+    # ✅ Big Bold Message with Colors
+    if prediction == 0:
+        st.markdown("<p style='color:green; font-size:18px; font-family:Arial;'>✅ నీరు అవసరం లేదు – భూమి తడిగా ఉంది 😊</p>", unsafe_allow_html=True)
+    else:
+        st.markdown("<p style='color:green; font-size:18px; font-family:Arial;'>🚿 నీరు అవసరం ఉంది – భూమి పొడి ఉంది 💧</p>", unsafe_allow_html=True)
+
+
+
+    # 🔊 Telugu Voice
     tts = gTTS(text=result_text, lang='te')
     tts.save("output.mp3")
     with open("output.mp3", "rb") as f:
-        audio_bytes = f.read()
-        st.audio(audio_bytes, format="audio/mp3")
+        st.audio(f.read(), format="audio/mp3")
     st.success("🔊 Voice generated!")
 
     # 🧪 Fertilizer Suggestion
@@ -97,14 +104,14 @@ if submitted:
     new_row.to_csv("data/sensor_data.csv", mode='a', index=False, header=False)
     st.success("✅ Data saved.")
 
-# 📊 Dashboard Visualization
-if st.checkbox("📊 Show Dashboard"):
+# ✅ Optional: Show Dashboard if expert/officer
+if st.checkbox("👩‍💼 Show Advanced Dashboard"):
     try:
         df = pd.read_csv("data/sensor_data.csv", header=None)
         df.columns = ["timestamp", "temp", "humidity", "moisture", "crop", "prediction"]
         st.line_chart(df[["temp", "humidity"]])
     except:
-        st.warning("⚠️ No data to display yet.")
+        st.warning("⚠️ No data available.")
 
 # 🔁 Retrain Model
 if st.button("🔁 Retrain Model"):
