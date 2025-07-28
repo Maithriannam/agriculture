@@ -9,6 +9,13 @@ from utils.fertilizer import suggest_fertilizer
 from sms_alert import send_sms_alert
 from gtts import gTTS
 
+import os
+
+# ✅ Ensure 'data/' folder exists
+if not os.path.exists("data"):
+    os.makedirs("data")
+
+
 # ==== 🌍 Load Environment Variables ====
 load_dotenv()
 api_key = os.getenv("OPENWEATHER_API_KEY")
