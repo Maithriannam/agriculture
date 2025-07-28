@@ -1,9 +1,8 @@
+streamlit
 pandas
+numpy
 scikit-learn
-matplotlib
-seaborn
-plotly
-gTTS
+gtts
 twilio
-requests
 python-dotenv
+requests
