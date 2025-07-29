@@ -10,6 +10,7 @@ from predict import predict_irrigation
 from utils.fertilizer import suggest_fertilizer
 from sms_alert import send_sms_alert
 from dotenv import load_dotenv
+from twilio.rest import Client
 load_dotenv()
 
 
