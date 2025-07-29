@@ -3,32 +3,50 @@ from sklearn.ensemble import RandomForestClassifier
 import joblib
 import os
 
-# Make sure models folder exists
-os.makedirs("models", exist_ok=True)
+DATA_PATH = "data/sensor_data.csv"
+MODEL_PATH = "models/irrigation_model.pkl"
 
-# Load sensor data with header
-df = pd.read_csv("data/sensor_data.csv")
+def train_model():
+    if not os.path.exists(DATA_PATH):
+        print("❌ No data to train on.")
+        return
 
-# If your CSV doesn't have headers, specify them here:
-# df = pd.read_csv("data/sensor_data.csv", names=["timestamp", "temp", "humidity", "moisture", "crop", "prediction"])
+    # ✅ Load data with correct headers
+    df = pd.read_csv(DATA_PATH, header=None)
+    df.columns = ["timestamp", "temp", "humidity", "moisture", "crop", "prediction"]
 
-# Check dataframe columns
-print(df.columns)
+    # ✅ Drop rows with any missing values
+    df = df.dropna()
 
-# Crop encoding - convert crop names to numeric labels
-df['crop_encoded'] = df['crop'].astype('category').cat.codes
+    # ✅ Remove header rows if accidentally appended
+    df = df[df["temp"] != "temp"]
 
-# Define features and target
-X = df[['temp', 'humidity', 'moisture', 'crop_encoded']]
-y = df['prediction']
+    # ✅ Convert necessary columns to correct types
+    df["temp"] = df["temp"].astype(float)
+    df["humidity"] = df["humidity"].astype(float)
+    df["moisture"] = df["moisture"].astype(int)
+    df["prediction"] = df["prediction"].astype(int)
 
-# Train model
-model = RandomForestClassifier(random_state=42)
-model.fit(X, y)
+    # ✅ Encode crop
+    crop_encoding = {"Paddy": 0, "Maize": 1, "Wheat": 2, "Cotton": 3}
+    df["crop_encoded"] = df["crop"].map(crop_encoding)
 
-# Save model
-joblib.dump(model, "models/irrigation_model.pkl")
+    # ✅ Drop rows with unknown crops
+    df = df.dropna(subset=["crop_encoded"])
 
-print("✅ Model trained and saved.")
+    # ✅ Features & Target
+    X = df[["temp", "humidity", "moisture", "crop_encoded"]]
+    y = df["prediction"]
 
+    # ✅ Train model
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X, y)
+
+    # ✅ Save model
+    os.makedirs("models", exist_ok=True)
+    joblib.dump(model, MODEL_PATH)
+    print("✅ Model retrained and saved!")
+
+if __name__ == "__main__":
+    train_model()
 

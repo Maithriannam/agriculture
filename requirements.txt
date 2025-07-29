@@ -1,10 +1,9 @@
-streamlit
+streamlit==1.33.0
+gtts
 pandas
-numpy
+requests
 scikit-learn
 joblib
-gtts
-twilio
 python-dotenv
-requests
+
 

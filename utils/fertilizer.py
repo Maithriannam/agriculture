@@ -1,8 +1,10 @@
 def suggest_fertilizer(crop):
-    suggestions = {
-        "Paddy": "Use Urea and DAP in early stages.",
-        "Maize": "Use Nitrogen-rich fertilizer.",
-        "Wheat": "Apply Potassium-based fertilizer.",
-        "Cotton": "Use phosphorus before flowering."
+    tips = {
+        "Paddy": "Use Urea & Potash-rich fertilizer every 2 weeks.",
+        "Maize": "Apply NPK (20:20:0) for early growth.",
+        "Wheat": "Use DAP and Zinc once every 3 weeks.",
+        "Cotton": "Spray micronutrients and compost mix regularly."
     }
-    return suggestions.get(crop, "No suggestion available.")
+    return tips.get(crop, "Use balanced NPK fertilizer based on soil test.")
+
+
