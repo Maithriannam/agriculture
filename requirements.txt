@@ -1,9 +1,8 @@
-streamlit==1.33.0
+streamlit
 gtts
 pandas
 requests
 scikit-learn
 joblib
 python-dotenv
-
-
+twilio
