@@ -14,7 +14,7 @@ from twilio.rest import Client
 load_dotenv()
 
 
-st.set_page_config(page_title="🌾 Smart Agriculture", layout="centered")
+st.set_page_config(page_title="🌾 SMART AGRICULTURE", layout="centered")
 
 # Title + Header
 st.title("🌾 Smart Agriculture Dashboard")
@@ -69,7 +69,7 @@ allow_repeat = st.sidebar.toggle("🔁 Allow Repeat Alerts", value=True)
 if 'last_alert' not in st.session_state:
     st.session_state.last_alert = None
 
-# 🌦️ Weather Prediction
+
 st.subheader("🌦️ Weather-Based Prediction")
 city = st.text_input("📍 Enter City", "Hyderabad")
 crop = st.selectbox("🌾 Crop", ["Paddy", "Maize", "Wheat", "Cotton"])
@@ -84,16 +84,16 @@ if auto_predict and city:
 
         st.markdown(f"<p style='font-size:18px; color:green;'>🗣️ {result_text}</p>", unsafe_allow_html=True)
 
-        # Voice
+        
         if enable_voice:
             play_voice(result_text)
 
-        # Fertilizer Tip
+        
         st.markdown("### 🧪 Fertilizer Recommendation")
         fert_tip = suggest_fertilizer(crop)
         st.info(f"{fert_tip}")
 
-        # SMS
+    
         if enable_sms and (allow_repeat or st.session_state.last_alert != prediction):
             msg = (
                 f"🚨 Irrigation Alert!\n🌡 Temp: {temp}°C\n💧 Humidity: {humidity}%\n"
@@ -107,20 +107,18 @@ if auto_predict and city:
             else:
                 st.error("❌ SMS Failed to Send")
 
-        # Save to CSV
+    
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         row = pd.DataFrame([[now, temp, humidity, moisture_val, crop, prediction]],
                            columns=["timestamp", "temp", "humidity", "moisture", "crop", "prediction"])
         row.to_csv("data/sensor_data.csv", mode='a', index=False, header=False)
         st.session_state.last_alert = prediction
 
-        # ✅ Summary
+    
         st.success("🎉 All steps completed: Prediction ✔️ | Voice ✔️ | Fertilizer ✔️ | SMS ✔️")
         st.balloons()
     else:
         st.error("❌ Could not fetch weather. Check API key or city name.")
-
-# ✍️ Manual Prediction
 with st.form("manual_form"):
     st.subheader("✍️ Manual Prediction")
     temp_manual = st.number_input("🌡️ Temperature", value=30)
@@ -162,7 +160,7 @@ if upload:
     st.success("✅ CSV Uploaded!")
 
 # 🗑️ Clear All Data
-if st.button("🗑️ Clear All Data"):
+if st.button(" Clear All Data"):
     open("data/sensor_data.csv", "w").close()
     st.success("✅ Data Cleared!")
 
@@ -189,4 +187,4 @@ if st.checkbox("📊 Show Dashboard"):
 if st.button("🔁 Retrain Model"):
     with st.spinner("⏳ Training model..."):
         os.system("python train.py")
-    st.success("✅ Model retrained successfully!")
+
